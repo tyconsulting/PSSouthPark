@@ -392,8 +392,14 @@ function New-NuSpecFile
   $requiredModules = @()
   #$requiredModules += $PSModuleInfo.RequiredModules
   #$requiredModules += $PSModuleInfo.NestedModules
-  $requiredModules += $ModuleManifestHashTable.RequiredModules
-  $requiredModules += $ModuleManifestHashTable.NestedModules
+  if ($ModuleManifestHashTable.RequiredModules)
+  {
+    $requiredModules += $ModuleManifestHashTable.RequiredModules
+  }
+  if ($ModuleManifestHashTable.NestedModules)
+  {
+    $requiredModules += $ModuleManifestHashTable.NestedModules
+  }
   
   Write-Verbose "Total dependent modules: $($requiredModules.count)"
   Foreach ($requiredModule in $requiredModules)
