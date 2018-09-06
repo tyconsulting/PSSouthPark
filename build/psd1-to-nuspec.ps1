@@ -186,7 +186,8 @@ function Get-ManifestHashTable
   }
   catch
   {
-
+    Throw "Unable to parse manifest file '$path'"
+    Exit -1
   }
 
   if(-not $Lines)
@@ -471,39 +472,18 @@ function New-NuSpecFile
         <releaseNotes>$(Get-EscapedString -ElementValue "$ReleaseNotes")</releaseNotes>
         <requireLicenseAcceptance>$($requireLicenseAcceptance.ToString())</requireLicenseAcceptance>
         <copyright>$(Get-EscapedString -ElementValue "$Copyright")</copyright>
-        <tags>$(if($Tags)
-
-
-{ Get-EscapedString -ElementValue ($Tags -join ' ')
-
-
-})</tags>
+        <tags>$(if($Tags){ Get-EscapedString -ElementValue ($Tags -join ' ')})</tags>
         $(if($LicenseUri)
-
-
 {
          "<licenseUrl>$(Get-EscapedString -ElementValue "$LicenseUri")</licenseUrl>"
-        
-
-
 })
         $(if($ProjectUri)
-
-
 {
         "<projectUrl>$(Get-EscapedString -ElementValue "$ProjectUri")</projectUrl>"
-        
-
-
 })
         $(if($IconUri)
-
-
 {
         "<iconUrl>$(Get-EscapedString -ElementValue "$IconUri")</iconUrl>"
-        
-
-
 })
         <dependencies>
             $dependencies
